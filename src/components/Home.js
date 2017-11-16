@@ -6,7 +6,7 @@ const NEWS_KEY = 'fb1038879176447c9fdb9c08b858cf72';
 
 
 let channels = ['hacker-news','reddit-r-all','usa-today','abc-news-au','bbc-news','the-huffington-post',"mtv-news",'al-jazeera-english',"bbc-sport","the-new-york-times","breitbart-news"];
-let channel = 'reddit-r-all';
+
 
 
 const hacker = require('../img/hacker.png');
@@ -21,7 +21,7 @@ const bbcsport = require('../img/sport.png');
 const newyork = require('../img/newyork.png');
 const breitbart = require('../img/breitbart.png');
 
-
+let randomnumber = 0;
 let channelObject = [hacker,reddit,usa,abc,bbc,huffington,mtv,aljazeera,bbcsport,newyork,breitbart]
 
 
@@ -48,7 +48,6 @@ export class Home extends React.Component {
 
   search(){
 
-    let gifs = [];
 
     for (let word of this.state.words) {
 
@@ -100,9 +99,8 @@ export class Home extends React.Component {
 
 
         this.setState({headlines: headlines});
-        console.log('headlines',this.state.headlines);
 
-        this.state.words = data.articles[0].title.split(" ");
+        this.state.words = data.articles[randomnumber].title.split(" ");
 
         this.search();
 
@@ -110,31 +108,36 @@ export class Home extends React.Component {
 
   }
 
-
-
-
-
-
+  randomize() {
+    randomnumber = Math.floor(Math.random()*10);
+  }
 
   componentDidMount() {
-    this.news();
+      this.news();
   }
+
 
   refresh(){
-    this.setState({headlines: []});
-    this.setState({gifs: []});
-    this.setState({words: []});
     channels.push(channels.shift());
     channelObject.push(channelObject.shift());
-    this.news();
+    this.clear();
   }
 
-  swap(){
+  swap = (e) => {
+    let x = e.target.id;
+    let temp = channels[x];
+    channels[x] = channels[0];
+    channels[0] = temp;
+    temp = channelObject[x];
+    channelObject[x] = channelObject[0];
+    channelObject[0] = temp;
+    this.clear();
+  }
+
+  clear(){
     this.setState({headlines: []});
     this.setState({gifs: []});
     this.setState({words: []});
-    channels.push(channels.shift());
-    channelObject.push(channelObject.shift());
     this.news();
   }
 
@@ -157,52 +160,21 @@ export class Home extends React.Component {
         <div className="row channel-container">
 
           <div className ="col-xs-1 col-sm-1 col-md-1">
-            <img onClick={this.refresh} className="active img-channel" src={channelObject[0]}/>
+            <img id={0} onClick={this.swap} className="active img-channel" src={channelObject[0]}/>
           </div>
 
-          <div className ="col-xs-1 col-sm-1 col-md-1">
-            <img onClick={this.refresh} className="img-channel" src={channelObject[1]}/>
-          </div>
+            {channels.map((x, i) => {
+              if (i < 10){
+                return <div className ="col-xs-1 col-sm-1 col-md-1">
+                  <img onClick={this.swap} id={i + 1} className="img-channel" src={channelObject[i + 1]}/>
+                </div>
+               }
+              })}
 
-          <div className ="col-xs-1 col-sm-1 col-md-1">
-            <img onClick={this.refresh} className="img-channel" src={channelObject[2]}/>
-          </div>
-
-          <div className ="col-xs-1 col-sm-1 col-md-1">
-            <img onClick={this.refresh} className="img-channel " src={channelObject[3]}/>
-          </div>
-
-          <div className ="col-xs-1 col-sm-1 col-md-1">
-            <img onClick={this.refresh} className="img-channel " src={channelObject[4]}/>
-          </div>
-
-          <div className ="col-xs-1 col-sm-1 col-md-1">
-            <img onClick={this.refresh} className="img-channel " src={channelObject[5]}/>
-          </div>
-
-          <div className ="col-xs-1 col-sm-1 col-md-1">
-            <img onClick={this.refresh} className="img-channel " src={channelObject[6]}/>
-          </div>
-
-          <div className ="col-xs-1 col-sm-1 col-md-1">
-            <img onClick={this.refresh} className="img-channel " src={channelObject[7]}/>
-          </div>
-
-          <div className ="col-xs-1 col-sm-1 col-md-1">
-            <img onClick={this.refresh} className="img-channel " src={channelObject[8]}/>
-          </div>
-
-          <div className ="col-xs-1 col-sm-1 col-md-1">
-            <img onClick={this.refresh} className="img-channel " src={channelObject[9]}/>
-          </div>
-
-          <div className ="col-xs-1 col-sm-1 col-md-1">
-            <img onClick={this.refresh} className="img-channel " src={channelObject[10]}/>
-          </div>
 
           <div className ="col-xs-1 col-sm-1 col-md-1">
             <button type="button" onClick={this.refresh} className="btn btn-primary btn-next">
-              <span class="glyphicon glyphicon-arrow-right"></span>
+              <span className="glyphicon glyphicon-arrow-right"></span>
               </button>
           </div>
 
@@ -219,7 +191,7 @@ export class Home extends React.Component {
 
 
         <span className="row story">
-          {this.state.headlines[0]}
+          {this.state.headlines[randomnumber]}
 
               {texts.map(function(text, i){
                 return <span className="embed col-xs-12 col-sm-6 col-md-3"><h1>{text}{pics[i]}</h1></span>;
@@ -236,16 +208,51 @@ export default Home;
 
 
 
-// Home.propTypes = {
-//   name: React.PropTypes.string,
-//     age: React.PropTypes.number,
-//     user: React.PropTypes.object,
-//     children: React.PropTypes.element.isRequired
-// };
+
+
+
+
+
+
 
 //
-// <h1>{this.state.words[0]}{this.state.gifs[0]}</h1>
-// <h1>{this.state.words[1]}{this.state.gifs[1]}</h1>
-// <h1>{this.state.words[2]}{this.state.gifs[2]}</h1>
-// <h1>{this.state.words[3]}{this.state.gifs[3]}</h1>
-// <h1>{this.state.words[4]}{this.state.gifs[4]}</h1>
+//
+// <div className ="col-xs-1 col-sm-1 col-md-1">
+//   <img id={1} onClick={this.swap} className="img-channel" src={channelObject[1]}/>
+// </div>
+//
+// <div className ="col-xs-1 col-sm-1 col-md-1">
+//   <img id={2} onClick={this.swap} className="img-channel" src={channelObject[2]}/>
+// </div>
+//
+// <div className ="col-xs-1 col-sm-1 col-md-1">
+//   <img id={3} onClick={this.swap} className="img-channel " src={channelObject[3]}/>
+// </div>
+//
+// <div className ="col-xs-1 col-sm-1 col-md-1">
+//   <img onClick={this.swap} className="img-channel " src={channelObject[4]}/>
+// </div>
+//
+// <div className ="col-xs-1 col-sm-1 col-md-1">
+//   <img onClick={this.swap} className="img-channel " src={channelObject[5]}/>
+// </div>
+//
+// <div className ="col-xs-1 col-sm-1 col-md-1">
+//   <img onClick={this.swap} className="img-channel " src={channelObject[6]}/>
+// </div>
+//
+// <div className ="col-xs-1 col-sm-1 col-md-1">
+//   <img onClick={this.swap} className="img-channel " src={channelObject[7]}/>
+// </div>
+//
+// <div className ="col-xs-1 col-sm-1 col-md-1">
+//   <img onClick={this.swap} className="img-channel " src={channelObject[8]}/>
+// </div>
+//
+// <div className ="col-xs-1 col-sm-1 col-md-1">
+//   <img onClick={this.swap} className="img-channel " src={channelObject[9]}/>
+// </div>
+//
+// <div className ="col-xs-1 col-sm-1 col-md-1">
+//   <img onClick={this.swap} className="img-channel " src={channelObject[10]}/>
+// </div>
