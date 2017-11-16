@@ -20,9 +20,6 @@ h4 {
 
 
 
-.story {
-  display: inline-block;
-}
 
 .channel {
   text-align: center;
@@ -71,6 +68,11 @@ h4 {
 .next-container {
   display: flex;
   justify-content: center;
+}
+
+.gify {
+  width:250px;
+  height:200px;
 }
 
 @media (max-height: 680px), screen and (orientation: portrait) {

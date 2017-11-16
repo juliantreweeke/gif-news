@@ -57,23 +57,23 @@ export class Home extends React.Component {
       .then(results => {
         return results.json();
       }).then(data => {
-
+          console.log(data);
           let gifs = data.data.map((gif) => {
 
             return (
+            <img className="gify" src={gif.images.downsized.url} />
 
-              <a key={gif.id} className="img-responsive" href="#"><embed  src={gif.embed_url} /></a>
             )
 
           })
+
           this.setState({
           gifs: [...this.state.gifs, gifs]
           })
-
       })
-    }
 
-    console.log("state", this.state.gifs)
+
+    }
 
   }
 
@@ -97,10 +97,10 @@ export class Home extends React.Component {
         })
 
 
-
         this.setState({headlines: headlines});
 
-        this.state.words = data.articles[randomnumber].title.split(" ");
+        // this.state.words = data.articles[randomnumber].title.split(" ");
+        this.setState({words: data.articles[0].title.split(" ")});
 
         this.search();
 
@@ -141,6 +141,19 @@ export class Home extends React.Component {
     this.news();
   }
 
+  showgifs(){
+    let texts = this.state.words;
+    let pics = this.state.gifs;
+    return (
+      <span className="row">
+        {this.state.headlines[randomnumber]}
+            {texts.map(function(text, i){
+              return (<span className="embed col-xs-12 col-sm-6 col-md-3"><h1>{text}{pics[i]}</h1></span>) ;
+              })}
+        </span>
+    )
+  }
+
 
 
 
@@ -150,27 +163,22 @@ export class Home extends React.Component {
 
 
 
-    let texts = this.state.words;
-    let pics = this.state.gifs;
-
-
     return (
       <div>
 
         <div className="row channel-container">
 
           <div className ="col-xs-1 col-sm-1 col-md-1">
-            <img id={0} onClick={this.swap} className="active img-channel" src={channelObject[0]}/>
+            <img alt="news-channel" id={0} onClick={this.swap} className="active img-channel" src={channelObject[0]}/>
           </div>
 
             {channels.map((x, i) => {
               if (i < 10){
                 return <div className ="col-xs-1 col-sm-1 col-md-1">
-                  <img onClick={this.swap} id={i + 1} className="img-channel" src={channelObject[i + 1]}/>
+                  <img alt="news-channel" onClick={this.swap} id={i + 1} className="img-channel" src={channelObject[i + 1]}/>
                 </div>
                }
               })}
-
 
           <div className ="col-xs-1 col-sm-1 col-md-1">
             <button type="button" onClick={this.refresh} className="btn btn-primary btn-next">
@@ -188,16 +196,9 @@ export class Home extends React.Component {
 
         </div>
 
+          { this.showgifs() }
 
 
-        <span className="row story">
-          {this.state.headlines[randomnumber]}
-
-              {texts.map(function(text, i){
-                return <span className="embed col-xs-12 col-sm-6 col-md-3"><h1>{text}{pics[i]}</h1></span>;
-                })}
-
-            </span>
       </div>
     )
   }
@@ -208,51 +209,16 @@ export default Home;
 
 
 
+// <embed src={gif.embed_url} />
 
 
 
-
-
-
-
 //
 //
-// <div className ="col-xs-1 col-sm-1 col-md-1">
-//   <img id={1} onClick={this.swap} className="img-channel" src={channelObject[1]}/>
-// </div>
+// <span className="row story">
+//   {this.state.headlines[randomnumber]}
 //
-// <div className ="col-xs-1 col-sm-1 col-md-1">
-//   <img id={2} onClick={this.swap} className="img-channel" src={channelObject[2]}/>
-// </div>
-//
-// <div className ="col-xs-1 col-sm-1 col-md-1">
-//   <img id={3} onClick={this.swap} className="img-channel " src={channelObject[3]}/>
-// </div>
-//
-// <div className ="col-xs-1 col-sm-1 col-md-1">
-//   <img onClick={this.swap} className="img-channel " src={channelObject[4]}/>
-// </div>
-//
-// <div className ="col-xs-1 col-sm-1 col-md-1">
-//   <img onClick={this.swap} className="img-channel " src={channelObject[5]}/>
-// </div>
-//
-// <div className ="col-xs-1 col-sm-1 col-md-1">
-//   <img onClick={this.swap} className="img-channel " src={channelObject[6]}/>
-// </div>
-//
-// <div className ="col-xs-1 col-sm-1 col-md-1">
-//   <img onClick={this.swap} className="img-channel " src={channelObject[7]}/>
-// </div>
-//
-// <div className ="col-xs-1 col-sm-1 col-md-1">
-//   <img onClick={this.swap} className="img-channel " src={channelObject[8]}/>
-// </div>
-//
-// <div className ="col-xs-1 col-sm-1 col-md-1">
-//   <img onClick={this.swap} className="img-channel " src={channelObject[9]}/>
-// </div>
-//
-// <div className ="col-xs-1 col-sm-1 col-md-1">
-//   <img onClick={this.swap} className="img-channel " src={channelObject[10]}/>
-// </div>
+//       {texts.map(function(text, i){
+//         return (<span className="embed col-xs-12 col-sm-6 col-md-3"><h1>{text}{pics[i]}</h1></span>) ;
+//         })}
+//   </span>
