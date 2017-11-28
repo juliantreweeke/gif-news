@@ -1,3 +1,18 @@
+## GIF-NEWS
+A silly project I built in React just for fun.
+Mashes together the Giphy and News API.
+(WORK IN PROGRESS)
+[Live Link](https://github.com/facebookincubator/create-react-app)
+
+## ANNOYING BUG 
+- A huge problem is that sometimes the gifs load in the wrong order!
+This is something I trying to fix ASAP.
+
+![EXAMPLE SCREENSHOT](https://imgur.com/ykUaDpU)
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>

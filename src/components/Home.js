@@ -58,10 +58,10 @@ export class Home extends React.Component {
         return results.json();
       }).then(data => {
           console.log(data);
-          let gifs = data.data.map((gif) => {
+          let gifs = data.data.map((gif,i) => {
 
             return (
-            <img className="gify" src={gif.images.downsized.url} />
+            <img i={gif.title} className="gify" src={gif.images.downsized.url} />
 
             )
 
@@ -144,6 +144,14 @@ export class Home extends React.Component {
   showgifs(){
     let texts = this.state.words;
     let pics = this.state.gifs;
+    if (texts.length !== pics.length){
+      return;
+    }
+
+    console.log(this.state.words);
+    console.log(this.state.gifs);
+
+
     return (
       <span className="row">
         {this.state.headlines[randomnumber]}
