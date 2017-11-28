@@ -8,5 +8,5 @@ Mashes together the Giphy and News API.
 
 #### ANNOYING BUG 
 A huge problem is that sometimes the gifs load in the wrong order!
-This is something I trying to fix ASAP.
+This is something I am trying to fix ASAP.
 
