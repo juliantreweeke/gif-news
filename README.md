@@ -2,7 +2,7 @@
 A silly project I am building in React just for fun.
 Mashes together the Giphy and News API.
 
-[Live Link](https://github.com/facebookincubator/create-react-app)
+[Live Link](https://juliantreweeke.github.io/gif-news/)
 
 ![Screenshot](https://i.imgur.com/ykUaDpU.png)
 
